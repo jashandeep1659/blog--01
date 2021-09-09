@@ -1,0 +1,11 @@
+{% load static %}
+<div class="card rounded-0 border-0 mb-4">
+  <div class="card-body p-0">
+    <h2 class="h5 mb-3">Tags cloud</h2>
+    <ul class="list-inline">
+      {% for tag in tags %}
+      <li class="list-inline-item my-1 mr-2"><a class="sidebar-tag-link" href="{% url 'tags' tag.slug %}">{{tag}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

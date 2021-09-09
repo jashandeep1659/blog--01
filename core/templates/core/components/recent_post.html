@@ -1,0 +1,14 @@
+{% load static %}
+<!-- Recent posts-->
+<div class="card rounded-0 border-0 mb-4">
+  <div class="card-body p-0">
+    <h2 class="h5 mb-3">Recent posts</h2>
+    {% for blog in recent_blogs %}
+    <div class="media mb-3"><a class="d-block my-auto" href="{% url 'blog' blog.id blog.slug %}"><img class="img-fluid" src="{{blog.image.url}}" alt="" width="70"></a>
+      <div class="media-body ml-3">
+        <small><a class="reset-anchor" href="{% url 'blog' blog.id blog.slug %}">{{blog.name}}</a></small>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

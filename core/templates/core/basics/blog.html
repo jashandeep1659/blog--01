@@ -1,0 +1,97 @@
+{% extends "core/base.html" %}
+{% block title %}
+{{blog.name}}
+{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container py-4">
+    <div class="row text-center">
+      <div class="col-lg-8 mx-auto"><a class="category-link mb-3 d-inline-block" href="{% url 'category' blog.category.id blog.category.slug %}">{{blog.category}}</a>
+        <h1>{{blog.name}}</h1>
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis aliquid.</p> -->
+        <ul class="list-inline mb-5">
+          <li class="list-inline-item mx-2"><a class="text-uppercase text-muted reset-anchor" href="#">{{blog.writer}}</a></li>
+          <li class="list-inline-item mx-2"><a class="text-uppercase text-muted reset-anchor" href="#">Views : {{blog.views}}</a></li>
+          <li class="list-inline-item mx-2"><a class="text-uppercase text-muted reset-anchor" href="#">{{blog.created_at |  date:" d M Y" }}</a></li>
+        </ul>
+      </div>
+    </div><img class="w-100 mb-5" src="{{blog.image.url}}" alt="...">
+    <div class="row">
+      <div class="col-lg-9">
+        <p class="lead mb-5">{{blog.overview}}</p>
+        {{blog.detail | safe}}
+        <blockquote class="blockquote bg-light p-4 p-lg-5 text-center mb-5">
+          <p class="h4 mb-4">{{quote.quote}}</p>
+          <footer class="blockquote-footer">
+            <cite title="Source Title">{{quote.by}}</cite>
+          </footer>
+        </blockquote>
+
+        <div class="d-flex align-items-center flex-column flex-sm-row mb-4 p-4 bg-light">
+          <h3 class="h4 mb-3 mb-sm-0">Tags</h3>
+          <ul class="list-inline mb-0 ml-0 ml-sm-3">
+            {% for tag in blog.tags.all %}
+            <li class="list-inline-item my-1 mr-2"><a class="sidebar-tag-link" href="{% url 'tags' tag.slug %}">{{tag.name}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- Post share-->
+        <div class="d-flex align-items-center flex-column flex-sm-row mb-5 p-4 bg-light">
+          <h3 class="h4 mb-3 mb-sm-0">Share this post</h3>
+          <ul class="list-inline mb-0 ml-0 ml-sm-3">
+            <li class="list-inline-item mr-1 my-1"><a class="social-link-share facebook" href="#"><i class="fab fa-facebook-f mr-2"></i>Share</a></li>
+            <li class="list-inline-item mr-1 my-1"><a class="social-link-share twitter" href="#"><i class="fab fa-twitter mr-2"></i>Tweet</a></li>
+            <li class="list-inline-item mr-1 my-1"><a class="social-link-share instagram" href="#"><i class="fab fa-instagram mr-2"></i>Share</a></li>
+          </ul>
+        </div>
+        <!-- Leave comment-->
+        <h3 class="h4 mb-4">Leave a comment</h3>
+        <form class="mb-5" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="form-group col-lg-6">
+              <input class="form-control" type="text" name="name" placeholder="Full Name e.g. Jason Doe" required>
+            </div>
+            <div class="form-group col-lg-6">
+              <input class="form-control" type="email" name="email" placeholder="Email Address e.g. Jason@email.com" required>
+            </div>
+            <div class="form-group col-lg-12">
+              <textarea class="form-control" name="message" rows="5" placeholder="Leave your message" required></textarea>
+            </div>
+            <div class="form-group col-lg-12">
+              <button class="btn btn-primary" type="submit">Submit your comment</button>
+            </div>
+          </div>
+        </form>
+        <!-- Post comments-->
+        <h3 class="h4 mb-4">Comments</h3>
+        <ul class="list-unstyled comments">
+          {% for comment in comments %}
+
+          <li>
+            <div class="media mb-4">
+              <div class="media-body ml-3">
+                <p class="small mb-0 text-primary">{{comment.created_at |  date:" d M Y"}}</p>
+                <h5>{{comment.full_name}}</h5>
+                <p class="text-muted text-small mb-2">{{comment.comment}}</p>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <!-- Blog sidebar-->
+      <div class="col-lg-3">
+        {% include "core/components/about.html" %}
+        {% include "core/components/recent_post.html" %}
+        {% include "core/components/categories.html" %}
+        {% include "core/components/tags.html" %}
+        <!-- Ad-->
+        <div class="card rounded-0 border-0 mb-4">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

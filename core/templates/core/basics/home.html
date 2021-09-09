@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}
+  Welcome
+{% endblock %}
+{% block content %}
+<!-- Main post-->
+<section class="bg-white pb-5">
+  <div class="container-fluid px-0 pnb-4">
+    <div class="row align-items-center">
+      <div class="col-lg-12">
+        <div class="post-thumnail"><img class="img-fluid w-100" src="{{trending_blogs.0.image.url}}" alt=""></div>
+      </div>
+      <div class="col-lg-6 mx-auto text-center">
+        <ul class="list-inline">
+          <li class="list-inline-item mr-3"><a class="category-link font-weight-normal" href="{% url 'category' trending_blogs.0.category.id trending_blogs.0.category.slug %}">{{trending_blogs.0.category}}</a></li>
+          <li class="list-inline-item mx-3"><a class="text-uppercase meta-link font-weight-normal" href="{% url 'blog' trending_blogs.0.id trending_blogs.0.slug %}">{{trending_blogs.0.writer}}</a></li>
+          <li class="list-inline-item mx-3"><a class="text-uppercase meta-link font-weight-normal" href="{% url 'blog' trending_blogs.0.id trending_blogs.0.slug %}">{{trending_blogs.0.created_at | date:"d M Y"}}</a></li>
+        </ul>
+        <h1 class="mb-4"> <a class="reset-anchor" href="{% url 'blog' trending_blogs.0.id trending_blogs.0.slug %}">{{trending_blogs.0.name}}</a></h1>
+        <p class="text-muted">{{trending_blogs.0.overview}}</p><a class="btn btn-link p-0 read-more-btn" href="{% url 'blog' trending_blogs.0.id trending_blogs.0.slug %}"><span>Read more</span><i class="fas fa-long-arrow-alt-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Home listing-->
+<section class="pb-5">
+  <div class="container pb-4">
+    <div class="row">
+      <div class="col-lg-9 mb-5 mb-lg-0">
+        {% for blog in page_obj  %}
+        <div class="row align-items-center mb-5">
+
+          <div class="col-lg-6"><a class="d-block post-trending mb-4" href="{% url 'blog' blog.id blog.slug %}"><img class="img-fluid w-100" src="{{blog.image.url}}" alt=""/></a>
+          </div>
+          <div class="col-lg-6">
+            <ul class="list-inline">
+              <li class="list-inline-item mr-2"><a class="category-link font-weight-normal" href="{% url 'category' blog.category.id blog.category.slug %}">{{blog.category}}</a></li>
+              <li class="list-inline-item mx-2"><a class="text-uppercase meta-link font-weight-normal" href="{% url 'blog' blog.id blog.slug %}">{{blog.writer}}</a></li>
+              <li class="list-inline-item mx-2"><a class="text-uppercase meta-link font-weight-normal" href="{% url 'blog' blog.id blog.slug %}">{{blog.created_at| date:" d M Y" }}</a></li>
+            </ul>
+            <h2 class="h3 mb-4"> <a class="d-block reset-anchor" href="{% url 'blog' blog.id blog.slug %}">{{blog.name}}</a></h2>
+            <p class="text-muted">{{blog.overview}}</p><a class="btn btn-link p-0 read-more-btn" href="{% url 'blog' blog.id blog.slug %}"><span>Read more</span><i class="fas fa-long-arrow-alt-right"></i></a>
+          </div>
+        </div>
+        {% endfor %}
+
+        <blockquote class="blockquote bg-dark text-white p-4 p-lg-5 text-center mb-5">
+          <p class="h4 mb-4">Design is the fundamental soul of a human-made creation that ends up expressing itself in successive outer layers of the product or service.</p>
+          <footer class="blockquote-footer">
+            <cite class="text-white" title="Source Title">Steve Jobs</cite>
+          </footer>
+        </blockquote>
+        <!-- Pagination-->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+            <li class="page-item active"><a class="page-link" href="?page=1">1</a></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+      <!-- Blog sidebar-->
+      <div class="col-lg-3">
+        {% include "core/components/about.html" %}
+        {% include "core/components/recent_post.html" %}
+        {% include "core/components/categories.html" %}
+        {% include "core/components/tags.html" %}
+        <!-- Ad-->
+        <div class="card rounded-0 border-0 mb-4">
+          <div class="card-body p-0"><a class="d-block" href="#"><img class="img-fluid" src="{% static "img/banner.jpg"%}" alt=""></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% include "core/components/insta.html" %}
+{% endblock %}

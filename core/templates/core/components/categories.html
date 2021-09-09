@@ -1,0 +1,11 @@
+{% load static %}
+<!-- Categories-->
+<div class="card rounded-0 border-0 mb-4">
+  <div class="card-body p-0">
+    <h2 class="h5 mb-3">Trending categories</h2>
+    {% for category in categories  %}
+    <a class="category-block category-block-sm bg-center bg-cover mb-2" style="background: url({{category.image.url}})" href="{% url 'category' category.id category.slug %}"><span class="category-block-title">{{category.name}}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
