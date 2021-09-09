@@ -20,7 +20,7 @@ def blogs(request):
         recent_blogs_pages = recent_blogs_page.page(recent_blogs_page.num_pages)
 
     tags =  random.sample(list(Tag.objects.all()), 4)
-    category = random.sample(list(Category.objects.filter(id__in = trending_blogs.values('category_id'))),2)
+    category = random.sample(list(Category.objects.filter(id__in = trending_blogs.values('category_id'))),3 )
     about_me  = About_me.objects.get(id =1)
     context = {
     'trending_blogs':trending_blogs,
